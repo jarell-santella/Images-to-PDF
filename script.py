@@ -51,10 +51,10 @@ if __name__ == '__main__':
     output_exists = False
     try:
         input = sys.argv[1]
-        if input.lower().endswith('.pdf') and not os.path.isdir(input): # if ends pdf and not directory
+        if input.lower().endswith('.pdf') and not os.path.isdir(input):
             output = input
             output_exists = True
-            if sys.argv[2].lower().endswith('.pdf') and not os.path.isdir(sys.argv[2]): # if ends pdf and not directory
+            if sys.argv[2].lower().endswith('.pdf') and not os.path.isdir(sys.argv[2]):
                 input = default_input(True)
             else:
                 input = sys.argv[2]
