@@ -1,6 +1,6 @@
 # Images to PDF
 
-This is just a small script that I created in 10 minutes for my amazing girlfriend who is a storyboard artist to put multiple images together into a single PDF file. Each page of the PDF represents a single image, and the pages of the PDF are created in order of the last modified date of each image (descending). I later polished it and added a lot of robustness as well as exception handling, and here we are.
+This is just a small script that I created in 10 minutes for my amazing girlfriend who is a storyboard artist to put multiple images together into a single PDF file, such that it works seamlessly with [Speaker Deck](https://speakerdeck.com/). Each page of the PDF represents a single image, and the pages of the PDF are created in order of the last modified date of each image (descending). I later polished it and added a lot of robustness as well as exception handling, and here we are.
 
 ## How to use
 
