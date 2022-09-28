@@ -12,6 +12,8 @@ Alternatively, you can give the script two arguments: the directory the images w
 
 It is highly recommended that if both arguments are given, that it is given in the same order as the example provided. Furthermore, if the only argument given is the output path for the resulting PDF file is given, please be sure to include your file name and extension (.pdf). The first argument will always prioritize to be the output path for the resulting PDF file if the path given ends with the PDF extension (.pdf).
 
+Please note that this script will only work with images that are of the PNG or JPG/JPEG format.
+
 ## Requirements
 
 As this is a Python script, Python should be installed. To be safe, Python 3 is recommended.
