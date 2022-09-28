@@ -2,7 +2,9 @@ import sys
 from PIL import Image
 import os, os.path
 
-def default_input():
+def default_input(message=False):
+    if message:
+        print('Input is not a directory.')
     default = os.getcwd()
     print('Using default input directory: {input}'.format(input=default))
     return default
@@ -49,17 +51,15 @@ if __name__ == '__main__':
     output_exists = False
     try:
         input = sys.argv[1]
-        if input.lower().endswith('.pdf') and not os.path.isdir(input):
-            if sys.argv[2].lower().endswith('.pdf'):
-                print('Input is not a directory.')
-                input = default_input()
+        if input.lower().endswith('.pdf') and not os.path.isdir(input): # if ends pdf and not directory
+            output = input
+            output_exists = True
+            if sys.argv[2].lower().endswith('.pdf') and not os.path.isdir(sys.argv[2]): # if ends pdf and not directory
+                input = default_input(True)
             else:
-                output = input
-                output_exists = True
                 input = sys.argv[2]
         if not os.path.isdir(input):
-            print('Input is not a directory.')
-            input = default_input()
+            input = default_input(True)
     except:
         input = default_input()
     if not output_exists:
