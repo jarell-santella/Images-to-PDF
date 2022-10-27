@@ -18,4 +18,4 @@ Please note that this script will only work with images that are of the PNG or J
 
 As this is a Python script, Python should be installed. To be safe, Python 3 is recommended.
 
-This script uses PIL (Python Image Library) which is not included in the Python Standard Library and therefore this must be installed first for the script to work. You can install PIL by using `python pip install pillow`, if `pip` is installed properly. If `pip` is not installed properly, then please use `python -m ensurepip --upgrade`. Please note that some Python distributions (such as Anaconda) come with PIL installed, and therefore it not necessary to have to instal
+This script uses PIL (Python Image Library) which is not included in the Python Standard Library and therefore this must be installed first for the script to work. You can install PIL by using `python pip install pillow`, if `pip` is installed properly. If `pip` is not installed properly, then please use `python -m ensurepip --upgrade`. Please note that some Python distributions (such as Anaconda) come with PIL installed, and therefore it not necessary to have to install.
