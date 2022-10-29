@@ -4,7 +4,7 @@ This is just a small script that I created in 10 minutes for my amazing girlfrie
 
 ## How to use
 
-Download the the Python script file `script.py` onto your computer, preferably into a folder. Take all of the images you want to put together and turn into a PDF into a folder as well. Preferably, the same folder that the `script.py` file is in.
+Download the Python script file `script.py` onto your computer, preferably into a folder. Take all of the images you want to put together and turn into a PDF into a folder as well. Preferably, the same folder that the `script.py` file is in.
 
 Change your current working directory to the folder that `script.py` is in by executing `cd path/to/folder`. Then run `python script.py`, and a new file will appear in the current working directory named `output.pdf`, which is the PDF containing all of the images together, one per page, sorted by last modified date of each image (descending). The images that will be put into `output.pdf` are the images in the current working directory.
 
