@@ -1,19 +1,8 @@
-import sys
 from PIL import Image
 import os, os.path
+from argparse import ArgumentParser
+from evaluators import directory
 import time
-
-def default_input(message=False):
-    if message:
-        print('Input is not a directory.')
-    default = os.getcwd()
-    print('Using default input directory: {input}'.format(input=default))
-    return default
-
-def default_output():
-    default = '{cwd}/output.pdf'.format(cwd=os.getcwd())
-    print('Using default output directory: {output}'.format(output=default))
-    return default
 
 def main(input, output):
     start_time = time.time()
@@ -55,28 +44,10 @@ def main(input, output):
 
 if __name__ == '__main__':
     # Default values for input and output are the current working directory if no arguments are provided
-    output_exists = False
-    try:
-        input = sys.argv[1]
-        if input.lower().endswith('.pdf') and not os.path.isdir(input):
-            output = input
-            output_exists = True
-            if sys.argv[2].lower().endswith('.pdf') and not os.path.isdir(sys.argv[2]):
-                input = default_input(True)
-            else:
-                input = sys.argv[2]
-        if not os.path.isdir(input):
-            input = default_input(True)
-    except:
-        input = default_input()
-    if not output_exists:
-        try:
-            output = sys.argv[2]
-            if not output.lower().endswith('.pdf') and not os.path.isdir(output):
-                output = '{path}/output.pdf'.format(path=output)
-            if os.path.isdir(output):
-                output = default_output()
-        except:
-            output = default_output()
 
-    main(input, output)
+    parser = ArgumentParser(description='Puts all image files in a directory into one PDF file, with each image being an individual page')
+    parser.add_argument('-i', '--input', default=os.getcwd(), type=directory.folder, metavar='', help='The directory where the input images are saved')
+    parser.add_argument('-o', '--output', default=f'{os.getcwd()}/output.pdf', type=directory.pdf_file, metavar='', help='The directory where the output PDF is saved')
+    args = parser.parse_args()
+
+    main(args.input, args.output)
