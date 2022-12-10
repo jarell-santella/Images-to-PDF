@@ -1,6 +1,7 @@
 import sys
 from PIL import Image
 import os, os.path
+import time
 
 def default_input(message=False):
     if message:
@@ -15,6 +16,8 @@ def default_output():
     return default
 
 def main(input, output):
+    start_time = time.time()
+
     image_paths = []
     images = []
 
@@ -45,6 +48,10 @@ def main(input, output):
         images[0].save(output, 'PDF', resolution=100.0, save_all=True, append_images=images[1:])
     except:
         raise Exception('No images were found in the input directory.')
+
+    end_time = time.time()
+
+    print('Completed in {duration} seconds'.format(duration = end_time - start_time))
 
 if __name__ == '__main__':
     # Default values for input and output are the current working directory if no arguments are provided
