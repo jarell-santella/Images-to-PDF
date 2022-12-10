@@ -1,46 +1,69 @@
-from PIL import Image
-import os, os.path
+from PIL import Image, UnidentifiedImageError
+import os
 from argparse import ArgumentParser
+import concurrent.futures
 from evaluators import directory
 import time
 
-def main(input, output):
-    start_time = time.time()
+def create_pdf(images, output_file):
+    # Save all images, one per page, in a PDF file 
+    images[0].save(output_file, 'PDF', resolution=100.0, save_all=True, append_images=images[1:])
+        
+def remove_alpha(image):
+    # Create new empty image of the same size that is RGB
+    # Put old RGBA image on top of it, essentially returning the same image without the alpha channel
+    rgb_image = Image.new('RGB', image.size, (255, 255, 255))
+    rgb_image.paste(image, mask=image.split()[3])
 
+    return rgb_image
+
+def open_image(image_file):
+    # Open an image using PIL
+    try:
+        image = Image.open(image_file)
+    except UnidentifiedImageError:
+        raise
+
+    if image.mode == 'RGBA':
+        return remove_alpha(image)
+    else:
+        return image
+
+def get_images(image_files):
+    # Open all images and maintain order. IO-bound, use threading
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        images = executor.map(open_image, image_files)
+
+    return images
+
+def get_image_paths(input_directory):
     image_paths = []
-    images = []
 
     # Get all images
-    for file in os.listdir(input):
+    for file in os.listdir(input_directory):
         if file.lower().endswith(('.jpg', '.png', '.jpeg')):
-            image_path = input + '/' + file
+            image_path = input_directory + '/' + file
             image_paths.append(image_path)
-    
-    # Sort images 
+
+    # Sort images by when they were last modified
     image_paths.sort(key=os.path.getmtime)
 
-    for image_path in image_paths:
-        try:
-            image = Image.open(image_path)
-            image.load()
-        except:
-            raise Exception('Could not open file as image.')
-        # If image is RGBA, remove alpha channel
-        if image.mode == 'RGBA':
-            rgb_image = Image.new('RGB', image.size, (255, 255, 255))
-            rgb_image.paste(image, mask=image.split()[3])
-            images.append(rgb_image)
-        else:
-            images.append(image)
+    return image_paths
+
+def main(input_directory, output_file):
+    start_time = time.time()
+
+    image_paths = get_image_paths(input_directory)
+
+    images = get_images(image_paths)
 
     try:
-        images[0].save(output, 'PDF', resolution=100.0, save_all=True, append_images=images[1:])
-    except:
-        raise Exception('No images were found in the input directory.')
-
-    end_time = time.time()
-
-    print('Completed in {duration} seconds'.format(duration = end_time - start_time))
+        create_pdf(list(images), output_file)
+    except IndexError:
+        print('There are no images in the given input directory')
+    else:
+        end_time = time.time()
+        print('Completed in {duration} seconds'.format(duration = end_time - start_time))
 
 if __name__ == '__main__':
     # Default values for input and output are the current working directory if no arguments are provided
